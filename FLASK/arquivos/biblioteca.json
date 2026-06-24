@@ -1,0 +1,35 @@
+[
+    {
+        "isbn": "978-8535914849",
+        "titulo": "1984",
+        "autor": "George Orwell",
+        "genero": "Distopia",
+        "ano_publicacao": 1949,
+        "editora": "Companhia das Letras",
+        "paginas": 416,
+        "status": "disponivel",
+        "localizacao": "Estante A1, Prateleira 2"
+    },
+    {
+        "ano_publicacao": 2000,
+        "autor": "maikon kisther",
+        "editora": "postget",
+        "genero": "sexual",
+        "isbn": "123-4567890",
+        "localizacao": "Estante a67, Prateleira 69",
+        "paginas": 6769,
+        "status": "disponivel",
+        "titulo": "Kama Sutra"
+    },
+    {
+        "isbn": "978-1234567",
+        "titulo": "4891",
+        "autor": "Cristhine Orwell",
+        "genero": "Utopia",
+        "ano_publicacao": 1949,
+        "editora": "Companhia das Letras",
+        "paginas": 500,
+        "status": "indisponivel",
+        "localizacao": "Estante A1, Prateleira 4"
+    }
+]
