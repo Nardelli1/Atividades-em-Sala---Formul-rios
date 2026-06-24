@@ -26,6 +26,7 @@
             <td>{{ livro.paginas }}</td>
             <td>{{ livro['status'] }}</td>
             <td>{{ livro['localizacao'] }}</td>
+            <td><a href="/biblioteca/alterar/{{ livro.isbn }}"><button>Editar</button></a></td>
         </tr>
     </tbody>
 {% endfor %}

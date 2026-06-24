@@ -1,16 +1,17 @@
 import funcoes
 import dados
-from flask import Flask, jsonify, request , render_template
+from flask import Flask, jsonify, request, render_template, redirect, url_for
 
 app = Flask(__name__)
 
 biblioteca = dados.carregar_do_arquivo()
 
 @app.route('/biblioteca', methods=['GET', 'POST'])
-@app.route('/biblioteca/<isbn>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/api/biblioteca/<isbn>', methods=['GET', 'PUT', 'DELETE'])
 def exibir_json(isbn=None):
     if request.method == 'GET':
-        return render_template('lista.html', biblioteca=biblioteca), 200
+        biblioteca = dados.carregar_do_arquivo()
+        return render_template('lista.html', biblioteca=biblioteca)
     elif request.method == 'POST':
         novo_livro = request.get_json()
         biblioteca.append(novo_livro)
@@ -31,7 +32,7 @@ def exibir_json(isbn=None):
                 dados.salvar_no_arquivo(biblioteca) 
                 return jsonify('Livro deletado com sucesso')
     return jsonify('Livro não encontrado'), 404
-
+    
 @app.route('/biblioteca/criar', methods=['GET', 'POST'])
 def cria_livro():
     if request.method == 'POST':
@@ -55,7 +56,30 @@ def cria_livro():
     else:
         return render_template('criar.html')
 
+@app.route('/biblioteca/alterar', methods=['POST'])
+@app.route('/biblioteca/alterar/<isbn>', methods=['GET'])
+def altera_livro(isbn=None):
+    if request.method == 'GET':
+        for l in biblioteca:
+            if isbn == l['isbn']:
+                return render_template('alterar.html', livro=l)
+    elif request.method == 'POST':
+        alteracoes = {
+            'titulo' : request.form.get('titulo'),
+            'autor' : request.form.get('autor'),
+            'genero' : request.form.get('genero'),
+            'ano_publicacao' : request.form.get('ano_publicacao'),
+            'editora' : request.form.get('editora'),
+            'paginas' : request.form.get('paginas'),
+            'status' : request.form.get('status'),
+            'localizacao' : request.form.get('localizacao')
+        }
+        for l in biblioteca:
+            if l['isbn'] == request.form.get('isbn'):
+                l.update(alteracoes)
+        dados.salvar_no_arquivo(biblioteca)
+        return redirect(url_for('exibir_json'))
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True) 
